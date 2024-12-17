@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neonicotinoid Monitoring Program</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1 style="text-align: center;">Neonicotinoid Monitoring Program</h1>
+    </header>
+    <main>
+        <h2 style="text-align: center;">Background</h2>
+        <p style="text-align: justify; margin: 0 auto; max-width: 80%;">
+            Neonicotinoids are the most widely used insecticide. These insecticides work by targeting and disrupting neurological pathways.
+            Studies done thus far exploring the effects of neonicotinoids have found that they can move within an ecosystem.
+            Once plants are treated, the insecticide can transfer to pollinators and to pests, which can affect the food webs on a greater scale.
+            The advantage of using neonicotinoids is their ability to be applied to plants and remain effective for up to 3 years, due to their use of the plant's vascular system.
+            Once applied, target pest insects die immediately from exposure. In addition, many nontarget species are exposed to neonicotinoids and ingest the pesticide at sublethal levels.
+            This in turn can lead to the exposure of neonicotinoids to other consumers, and travel up a food web.
+            Many studies have demonstrated the mortality of vertebrates, such as birds, as a result of exposure to neonicotinoids.
+            Additionally, it has been found that exposure can disrupt species-specific phenology, including breeding and migration.
+            The Audubon Society of Rhode Island and URI's Water for the World Lab seek to establish a monitoring program across its wildlife refuges to understand the capacity of these chemicals to infiltrate conservation land where
+            negative impacts to biota can undermine the potential of these areas to serve as refugia for birds, pollinating insects, and other species.
+            Below you will find tables and graphs depicting neonicotinoid concentrations across different sampling sites. This data helps track contamination trends over time.
+        </p>
+
+        <!-- Image centered -->
+        <h2 style="text-align: center;">Map</h2>
+        <img src="{{ url_for('static', filename='Map copy.jpeg') }}"
+             alt="Neonicotinoid Map"
+             style="display: block; margin: 20px auto; max-width: 80%; height: auto;">
+
+        {% for site_name, data in all_data.items() %}
+        <section>
+            <h2 style="text-align: center;">{{ site_name }}</h2>
+            <form action="{{ url_for('save_comments') }}" method="POST" style="text-align: center;">
+                <input type="hidden" name="site_name" value="{{ site_name }}">
+                <table style="margin: 0 auto; border-collapse: collapse; width: 80%; text-align: center;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Sample</th>
+                            <th>Conc (ppb)</th>
+                            <th>Comment</th>
+                            <th>Enter Comment Here</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data %}
+                        <tr>
+                            <td>{{ row.Date }}</td>
+                            <td>{{ row.Sample }}</td>
+                            <td>{{ row.Concentration }}</td>
+                            <td>
+                                {% if row.Comment %}
+                                    <ul>
+                                        {% for comment in row.Comment.split('\n') %}
+                                            <li>{{ comment }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    No comments yet.
+                                {% endif %}
+                            </td>
+                            <td>
+                                <input type="text" name="comment_{{ loop.index }}" placeholder="Enter your comment">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button type="submit" style="margin: 10px auto; display: block;">Save Comments</button>
+            </form>
+            <img src="{{ url_for('static', filename='conc_site' ~ loop.index ~ ' copy.png') }}"
+                 alt="Monitoring data for {{ site_name }}"
+                 style="display: block; margin: 20px auto; max-width: 80%; height: auto;">
+        </section>
+        {% endfor %}
+    </main>
+    <footer style="text-align: center;">
+        <p>&copy; 2024 My Wonderful Webpage</p>
+    </footer>
+</body>
+</html>
