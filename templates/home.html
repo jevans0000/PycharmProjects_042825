@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neonicotinoid Monitoring Program</title>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Neonicotinoid Monitoring Program</h1>
+    </header>
+    <main>
+        <h2>Select a Site</h2>
+        <b>
+            {% for site in sites %}
+            <li><a href="{{ url_for('index', site_name=site) }}">{{ site.capitalize() }}</a></li>
+            {% endfor %}
+        </b>
+    </main>
+</body>
+      <!-- Add your image here -->
+    <div style="margin-top: 20px; margin-bottom: 40px; text-align: center;">
+    <img src="{{ url_for('static', filename='map_still.jpeg') }}" alt="Descriptive Text for Image" style="display: block; margin: 0 auto; max-width: 80%; height: auto;">
+</div>
+
+    <footer>
+        <p>&copy; 2024 Neonicotinoid Monitoring Program</p>
+    </footer>
+</body>
+</html>
