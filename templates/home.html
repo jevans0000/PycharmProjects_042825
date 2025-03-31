@@ -15,18 +15,17 @@
         <h2>Select a Site</h2>
         <b>
             {% for site in sites %}
-            <li><a href="{{ url_for('index', site_name=site) }}">{{ site.capitalize() }}</a></li>
+            <li><a href="{{ url_for('index', site_ID=site) }}">{{ sites[site]["site_name"] }}</a></li>
             {% endfor %}
         </b>
     </main>
 </body>
-      <!-- Add your image here -->
+      <!-- Map here -->
     <div style="margin-top: 20px; margin-bottom: 40px; text-align: center;">
-    <img src="{{ url_for('static', filename='map_still.jpeg') }}" alt="Descriptive Text for Image" style="display: block; margin: 0 auto; max-width: 80%; height: auto;">
-</div>
+    <iframe src="/sites_map" width="800" height="800"></iframe>
 
     <footer>
-        <p>&copy; 2024 Neonicotinoid Monitoring Program</p>
+        <p>&copy; 2025 Neonicotinoid Monitoring Program</p>
     </footer>
 </body>
 </html>

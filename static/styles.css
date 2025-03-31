@@ -7,10 +7,11 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* Ensure the body takes full height of the screen */
+    overflow-x: hidden;
 }
 
 header {
-    background-color: #87c8ed;
+    background-color: #3fb34d;
     color: black;
     padding: 20px;
     text-align: center;
@@ -24,7 +25,7 @@ main {
 }
 
 footer {
-    background-color: #87c8ed;
+    background-color: #3FB34DFF;
     color: black;
     padding: 10px;
     text-align: center;
@@ -45,7 +46,7 @@ th, td {
 }
 
 th {
-    background-color: #87c8ed;
+    background-color: #3FB34DFF;
     color: black;
     font-weight: bold;
 }
@@ -65,5 +66,5 @@ input[type="text"] {
 }
 
 input[type="text"]:focus {
-    outline: 2px solid #87c8ed; /* Highlight when focused */
+    outline: 2px solid #3FB34DFF; /* Highlight when focused */
 }

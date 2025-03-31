@@ -1,18 +1,25 @@
 from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 import os
+import csv
 
 app = Flask(__name__)
 
 # Map site names to their data and comment files
-sites = {
-    "Fisherville Brook": {"data_file": "table1_data.csv", "comments_file": "comment_column1.csv", "image": "Fisherville_graph.png"},
-    "Emilie Reucker Pond": {"data_file": "table2_data.csv", "comments_file": "comment_column2.csv", "image": "Emilie_graph.png"},
-    "Mclntosh Wetland": {"data_file": "table3_data.csv", "comments_file": "comment_column3.csv", "image": "Mclntosh_graph.png"},
-    "Parker Woodland": {"data_file": "table4_data.csv", "comments_file": "comment_column4.csv", "image": "Parker_graph.png"},
-    "Caratunk Muskrat Pond": {"data_file": "table5_data.csv", "comments_file": "comment_column5.csv", "image": "Caratuck_graph.png"},
-    "Fort First Pond": {"data_file": "table6_data.csv", "comments_file": "comment_column6.csv", "image": "Fort_graph.png"},
-}
+sites = {}
+with open('sampData/locations.csv', 'r') as file:
+    csvreader = csv.reader(file)
+    header = next(csvreader)
+    names = []
+    ID = []
+    for row in csvreader:
+        ID.append(row[0])
+        names.append(row[3])
+    i=0
+    for name in names:
+        sites.update({ID[i]:{"site_name":name, "data_file":"sampData/"+ID[i]+"_data.csv", "comments_file":"sampData/"+ID[i]+"_comment_column.csv", "image":"static/"+ID[i]+"_image.png"}})
+        i=i+1
+
 
 def ensure_file_exists(file_path):
     """
@@ -27,20 +34,24 @@ def home():
     """
     Render the homepage with links to all sites.
     """
-    return render_template("home.html", sites=sites.keys())
+    return render_template("home.html", sites=sites)
 
-@app.route("/<site_name>")
-def index(site_name):
+@app.route("/sites_map")
+def map():
+    return render_template("map.html")
+@app.route("/<site_ID>")
+def index(site_ID):
     """
     Dynamically render the table for the given site.
     """
-    if site_name not in sites:
-        return f"Site '{site_name}' not found.", 404
+    if site_ID not in sites:
+        return f"Site '{site_ID}' not found.", 404
 
     # Get file paths and image for the selected site
-    data_file = sites[site_name]["data_file"]
-    comments_file = sites[site_name]["comments_file"]
-    site_image = sites[site_name]["image"]  # Image for the site
+    site_name = sites[site_ID]["site_name"]
+    data_file = sites[site_ID]["data_file"]
+    comments_file = sites[site_ID]["comments_file"]
+    site_image = sites[site_ID]["image"]  # Image for the site
 
     # Ensure the comments file exists
     ensure_file_exists(comments_file)
@@ -65,18 +76,18 @@ def index(site_name):
 
     # Convert the DataFrame to a list of dictionaries for rendering
     data = df.to_dict(orient="records")
-    return render_template("index.html", site_name=site_name, data=data, site_image=site_image)
+    return render_template("index.html", site_name=site_name, site_ID=site_ID, data=data, site_image=site_image)
 
-@app.route("/<site_name>/save_comments", methods=["POST"])
-def save_comments(site_name):
+@app.route("/<site_ID>/save_comments", methods=["POST"])
+def save_comments(site_ID):
     """
     Save comments for the given site.
     """
-    if site_name not in sites:
-        return f"Site '{site_name}' not found.", 404
+    if site_ID not in sites:
+        return f"Site '{site_ID}' not found.", 404
 
     # Get file paths for the selected site
-    comments_file = sites[site_name]["comments_file"]
+    comments_file = sites[site_ID]["comments_file"]
 
     # Load existing comments from the comments CSV file
     try:
@@ -103,7 +114,7 @@ def save_comments(site_name):
     comments_df.to_csv(comments_file, index=False)
 
     # Redirect to the index route to refresh the page
-    return redirect(url_for("index", site_name=site_name))
+    return redirect(url_for("index", site_name=site_ID))
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
