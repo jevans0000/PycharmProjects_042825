@@ -20,7 +20,6 @@ with open('sampData/locations.csv', 'r') as file:
         sites.update({ID[i]:{"site_name":name, "data_file":"sampData/"+ID[i]+"_data.csv", "comments_file":"sampData/"+ID[i]+"_comment_column.csv", "image":"static/"+ID[i]+"_image.png"}})
         i=i+1
 
-
 def ensure_file_exists(file_path):
     """
     Ensure the specified file exists. If it doesn't, create it with an empty header row.
@@ -38,7 +37,12 @@ def home():
 
 @app.route("/sites_map")
 def map():
-    return render_template("map.html")
+    return render_template("map.html", sites=sites)
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
 @app.route("/<site_ID>")
 def index(site_ID):
     """
