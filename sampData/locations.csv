@@ -1,0 +1,11 @@
+Point_ID,GPS_N,GPS_W,Description,Date Sampled,Concentration (ppb)
+FIBR_1,41.5853,-71.5707,Fisherville Brook Pond Outflow,2024-10-05,5.3
+FIBR_2,41.5866,-71.574,Fisherville Brook Pond Inflow,2024-10-05,5.3
+FIBR_3,41.6094,-71.5903,Fisherville Brook Refuge Inflow,2024-10-05,5.3
+EMRU_1,41.5922,-71.1996,Emilie Ruecker Pond,2026-10-05,5.3
+MCIN_1,41.7096,-71.2869,McIntosh Wetland,2024-10-05,5.3
+PAWO_1,41.7214,-71.7003,Parker Woodland Refuge Inflow,2024-10-05,5.3
+PAWO_2,41.7208,-71.6838,Parker Woodland Refuge Outflow,2024-10-05,5.3
+CARA_1,41.8732,-71.3199,Caratunk Refuge Inflow,2024-10-05,5.3
+CARA_2,41.8759,-71.3178,Caratunk Muskrat Pond,2024-10-05,5.3
+FORT_1,41.9673,-71.5567,Fort First Pond,2025-03-20,10.5
